@@ -374,7 +374,7 @@ section {
 /*--------------------------------------------------------------
 # Skills
 --------------------------------------------------------------*/
-.skills .progress {
+/* .skills .progress {
   height: 60px;
   display: block;
   background: none;
@@ -402,6 +402,37 @@ section {
   height: 10px;
   transition: 0.9s;
   background-color: #149ddd;
+} */
+.skillWraper {
+  position: relative;
+}
+.skillWraper:hover .skillsImg {
+  width: 180px;
+  -webkit-filter: none;
+  filter: none;
+}
+.skillWraper:hover .skillName {
+  visibility: visible;
+}
+.skillsImg {
+  width: 150px;
+  transition: width .15s;
+  transition-timing-function: ease-in-out;
+  cursor: pointer;
+  opacity: 1;
+  display: block;
+  /* -webkit-backface-visibility: hidden; */
+  backface-visibility: hidden;
+}
+.skillName {
+    position: absolute;
+    top: 100%;
+    background-color: rgba(255, 135, 191, 0.85);
+    padding: 5px;
+    color: #270261;
+    font-weight: 600;
+    visibility: hidden;
+    border-radius: 20px;
 }
 
 /*--------------------------------------------------------------
