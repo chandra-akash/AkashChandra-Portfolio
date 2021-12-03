@@ -30,7 +30,8 @@ h1, h2, h3, h4, h5, h6 {
   right: 15px;
   bottom: 15px;
   z-index: 996;
-  background: #149ddd;
+  /* background: #149ddd; */
+  background: linear-gradient(to top, #5af75a, rgb(228, 76, 6));
   width: 40px;
   height: 40px;
   border-radius: 50px;
@@ -42,7 +43,8 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 0;
 }
 .back-to-top:hover {
-  background: #2eafec;
+  /* background:  #2eafec; */
+  background: linear-gradient(to bottom, #5af75a, rgb(228, 76, 6));
   color: #fff;
 }
 .back-to-top.active {
