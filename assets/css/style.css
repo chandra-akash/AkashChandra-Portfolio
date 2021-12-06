@@ -218,33 +218,43 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 56px;
   color: #fff;
+  text-align: center;
 }
 #hero p {
   color: #fff;
   margin-bottom: 50px;
   font-size: 26px;
   font-family: "Poppins", sans-serif;
+  text-align: center;
 }
 #hero p span {
   color: #fff;
   padding-bottom: 4px;
   letter-spacing: 1px;
-  border-bottom: 3px solid #149ddd;
 }
 @media (min-width: 1024px) {
   #hero {
     background-attachment: fixed;
   }
+  #hero .hero-container{
+    width: 470px;
+  }
 }
 @media (max-width: 768px) {
   #hero h1 {
-    font-size: 28px;
+    font-size: 40px;
     line-height: 36px;
   }
   #hero h2 {
     font-size: 18px;
     line-height: 24px;
     margin-bottom: 30px;
+  }
+  #hero .hero-container{
+    width: 210px;
+  }
+  #hero .hero-container p{
+    font-size: 29px;
   }
 }
 
@@ -405,7 +415,10 @@ section {
     visibility: hidden;
     border-radius: 20px;
 }
-
+.center-alignment{
+  display: flex;
+  justify-content: center;
+}
 /*--------------------------------------------------------------
 # Resume
 --------------------------------------------------------------*/
