@@ -23,13 +23,28 @@
   // echo $contact->send();
 
 
+
+  // 2ndTRy
 // the message
-$msg = "First line of text\nSecond line of text";
+// $msg = "First line of text\nSecond line of text";
 
 // use wordwrap() if lines are longer than 70 characters
-$msg = wordwrap($msg,70);
+// $msg = wordwrap($msg,70);
 
 // send email
-mail("chandra.akash020@gmail.com","My subject",$msg);
+// mail("chandra.akash020@gmail.com","My subject",$msg);
+
+
+
+// 3rd try
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // collect value of input field
+  $name = $_POST['name'];
+  if (empty($name)) {
+    echo "Name is empty";
+  } else {
+    echo $name;
+  }
+// }
 
 ?>
