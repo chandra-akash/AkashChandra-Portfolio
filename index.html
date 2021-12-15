@@ -307,6 +307,30 @@
                   <p class="skillName">Figma</p>
                 </div>
               </div>
+              <div class="center-alignment">
+                <div class="d-flex justify-content-center align-items-center m-2  skillWraper"
+                  style="width: 190px; height: 190px;"><img class="img-fluid skillsImg extraSmallSkillImg"
+                    src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogovtor.com%2Fwp-content%2Fuploads%2F2020%2F10%2Fvercel-inc-logo-vector.png&f=1&nofb=1"
+                    alt="icon" title="Vercel">
+                  <p class="skillName">Vercel</p>
+                </div>
+              </div>
+              <div class="center-alignment">
+                <div class="d-flex justify-content-center align-items-center m-2  skillWraper"
+                  style="width: 190px; height: 190px;"><img class="img-fluid skillsImg extraSmallSkillImg"
+                    src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fquiin.s3.us-east-1.amazonaws.com%2Fvendors%2Flogos%2F000%2F239%2F356%2Foriginal%2FHopin_Logo_Square.png%3F1604759708&f=1&nofb=1"
+                    alt="icon" title="Netlify">
+                  <p class="skillName">Netlify</p>
+                </div>
+              </div>
+              <div class="center-alignment">
+                <div class="d-flex justify-content-center align-items-center m-2  skillWraper"
+                  style="width: 190px; height: 190px;"><img class="img-fluid skillsImg extraSmallSkillImg"
+                    src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fclipground.com%2Fimages%2Fheroku-logo-3.png&f=1&nofb=1"
+                    alt="icon" title="Heroku">
+                  <p class="skillName">Heroku</p>
+                </div>
+              </div>
           </div><br><br>
         </div>
         </div>
@@ -422,13 +446,29 @@
           <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
 
             <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-              <div class="portfolio-wrap">
-                <img src="assets/img/portfolio/FoodReciepeApp.jpg" class="img-fluid" alt="">
-                <div class="portfolio-links">
-                  <a href="https://food-reciepe-app.vercel.app/" target="_blank" title="Food_Reciepe_App"><i
-                      class="bx bx-link-external"></i></a>
-                  <a href="https://github.com/chandra-akash/Food_Reciepe-App.git" target="_blank"
-                    title="GitHub Repository"><i class="bx bxl-github"></i></a>
+              <div class="proj">
+                <div class="portfolio-wrap">
+                  <img src="assets/img/portfolio/FoodReciepeApp.jpg" class="img-fluid" alt="">
+                  <div class="portfolio-links">
+                    <a href="https://food-reciepe-app.vercel.app/" target="_blank" title="Food_Reciepe_App"><i
+                        class="bx bx-link-external"></i></a>
+                    <a href="https://drive.google.com/file/d/1b4JJmQxn6yYM5YgwJKbkB5Xwcz9Jh-Hp/view?usp=sharing"
+                      target="_blank" title="Food_Reciepe_App"><i class="bx bx-slideshow"></i></a>
+                    <a href="https://github.com/chandra-akash/Food_Reciepe-App.git" target="_blank"
+                      title="GitHub Repository"><i class="bx bxl-github"></i></a>
+                  </div>
+                </div>
+                <div>
+                  <h3>Food_Reciepe_App</h3>
+                  <p>A website where we can search for any recipe and find its details</p>
+                  <div class="projectTech">
+                    <img src="https://img.icons8.com/color/480/000000/html-5--v1.png" alt="icon" title="HTML5" />
+                    <img src="https://img.icons8.com/color/480/000000/css3.png" alt="icon" title="CSS3" />
+                    <img src="https://img.icons8.com/color/480/000000/javascript.png" alt="icon" title="JS" />
+                    <img
+                      src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogovtor.com%2Fwp-content%2Fuploads%2F2020%2F10%2Fvercel-inc-logo-vector.png&f=1&nofb=1"
+                      alt="icon" title="vercel" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -553,33 +593,39 @@
             </div>
 
             <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-              <!-- <form action="forms/contact.php" role="form" class="php-email-form"> -->
-              <form action="./forms/contact.php" method="POST" role="form" class="php-email-form">
+              <form action="https://formspree.io/f/xoqrqkwd" method="POST" role="form" class="contactForm email-form">
                 <div class="row">
                   <div class="form-group col-md-6">
                     <label for="name">Your Name</label>
-                    <input type="text" name="name" class="form-control" id="name" required>
+                    <input type="text" name="name" class="form-control" autofocus placeholder="Full Name" id="name"
+                      data-rule="minlen:4" data-msg="Please enter at least 4 chars" required />
+                    <div className="validation"></div>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="name">Your Email</label>
-                    <input type="email" class="form-control" name="email" id="email" required>
+                    <input type="email" class="form-control" name="email" placeholder="example@email.com" id="email"
+                      data-rule="email" data-msg="Please enter a valid email" required />
+                    <div className="validation"></div>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="name">Subject</label>
-                  <input type="text" class="form-control" name="subject" id="subject" required>
+                  <input type="text" class="form-control" name="subject" placeholder="To know about MasaiSchool"
+                    id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" required />
+                  <div className="validation"></div>
                 </div>
                 <div class="form-group">
                   <label for="name">Message</label>
-                  <textarea class="form-control" name="message" rows="10" required></textarea>
+                  <textarea class="form-control" name="message" placeholder="Hi Akash" rows="10" data-rule="required"
+                    data-msg="Please write something for us" required></textarea>
+                  <div className="validation"></div>
                 </div>
                 <div class="my-3">
                   <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
+                  <div class="error-message" id="errormessage"></div>
+                  <div class="sent-message" id="sendmessage">Your message has been sent. Thank you!</div>
                 </div>
                 <div class="text-center" target="_blank">
-                  <!-- onclick="parent.open(`https://mail.google.com/mail/?view=cm&fs=1&to=akash_fw10_059@masai.school&su=${name.value}&body=${message.value}&bcc=chandra.akash020@gmail.com`)" -->
                   <button type="submit">Send Message</button>
                 </div>
               </form>
