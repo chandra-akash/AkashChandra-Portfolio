@@ -561,9 +561,12 @@ a.btn:active{
 .projectTech{
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
 }
 .projectTech>img{
   width: 50px;
+  cursor: pointer;
+  border-radius: 25px;
 }
 /*--------------------------------------------------------------
 # Services
