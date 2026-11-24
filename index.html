@@ -152,22 +152,27 @@
         <!-- End Header -->
 
         <!-- ======= Hero Section ======= -->
-        <section id="hero" class="d-flex flex-column justify-content-center align-items-center"
-            style="position: relative; overflow: hidden; background: #040711;">
-            <!-- Lightweight 3D Spiral Galaxy Canvas -->
-            <canvas id="galaxy-canvas"
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></canvas>
+        <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+            <!-- 3D Vortex Spiral Galaxy Canvas -->
+            <canvas id="galaxy-canvas"></canvas>
 
-            <div class="hero-container" data-aos="fade-in" style="position: relative; z-index: 2;">
+            <div class="hero-container text-center" data-aos="fade-in">
                 <h1>Akash Chandra</h1>
-            </div>
-            <div class="hero-container" data-aos="fade-in" style="position: relative; z-index: 2;">
                 <p>
                     I'm
                     <span class="typed"
-                        data-typed-items="a Senior Backend Software Engineer., a Node.js &amp; AWS Cloud Architect., a Distributed Systems Developer., an Agentic AI Practitioner."></span>
+                        data-typed-items="a Senior Backend Software Engineer., a Node.js and AWS Cloud Architect., a Distributed Systems Developer., an Agentic AI Practitioner."></span>
                 </p>
             </div>
+
+            <!-- Scroll Down Indicator (Only visible in Hero section) -->
+            <a href="#about" id="hero-scroll-down" class="scrollto" aria-label="Scroll down to About section">
+                <span class="scroll-text">Scroll Down</span>
+                <span class="scroll-mouse">
+                    <span class="scroll-wheel"></span>
+                </span>
+                <i class="bi bi-chevron-double-down scroll-arrow"></i>
+            </a>
         </section>
         <!-- End Hero -->
 
@@ -1218,124 +1223,193 @@
         <script>
             (function()
             {
+                // 1. Scroll Down Indicator Visibility Logic
+                const scrollBtn = document.getElementById('hero-scroll-down');
+                const heroSection = document.getElementById('hero');
+
+                function toggleScrollIndicator ()
+                {
+                    if(!scrollBtn || !heroSection) return;
+                    const scrollY = window.scrollY || window.pageYOffset;
+                    if(scrollY > 80)
+                    {
+                        scrollBtn.classList.add('hidden-scroll');
+                    } else
+                    {
+                        scrollBtn.classList.remove('hidden-scroll');
+                    }
+                }
+                window.addEventListener('scroll', toggleScrollIndicator, {passive: true});
+                toggleScrollIndicator();
+
+                // 2. 3D Inward-Pulling Spiral Vortex Galaxy Canvas
                 const canvas = document.getElementById('galaxy-canvas');
                 if(!canvas) return;
                 const ctx = canvas.getContext('2d');
 
-                let width, height, cx, cy;
-                const stars = [];
+                let width, height, cx, cy, maxRadius;
+                const particles = [];
                 const bgStars = [];
-                const STAR_COUNT = 950;
-                const BG_STAR_COUNT = 180;
-                const ARMS = 3;
-                let mouseX = 0, mouseY = 0;
+                const PARTICLE_COUNT = 1200;
+                const ARMS = 4;
 
-                function resize ()
+                // Nebula & Star color palette matching deep-space spiral galaxies
+                const nebulaColors = [
+                    {r: 56, g: 189, b: 248},   // Cyan Blue
+                    {r: 99, g: 102, b: 241},   // Indigo
+                    {r: 168, g: 85, b: 247},   // Violet Purple
+                    {r: 236, g: 72, b: 153},   // Magenta Pink
+                    {r: 253, g: 224, b: 71},   // Warm Core Gold
+                    {r: 255, g: 255, b: 255}   // Pure Starlight
+                ];
+
+                function initScene ()
                 {
-                    width = canvas.width = canvas.offsetWidth || window.innerWidth;
-                    height = canvas.height = canvas.offsetHeight || window.innerHeight;
-                    cx = width / 2;
+                    width = canvas.width = heroSection.offsetWidth || window.innerWidth;
+                    height = canvas.height = heroSection.offsetHeight || window.innerHeight;
+
+                    // Align galaxy center directly behind "Akash Chandra" text (accounting for 300px desktop sidebar)
+                    const sidebarOffset = window.innerWidth >= 1199 ? 150 : 0;
+                    cx = (width / 2) + sidebarOffset;
                     cy = height / 2;
+                    maxRadius = Math.max(width, height) * 0.68;
+
+                    bgStars.length = 0;
+                    for(let i = 0; i < 160; i++)
+                    {
+                        bgStars.push({
+                            x: Math.random() * width,
+                            y: Math.random() * height,
+                            r: Math.random() * 1.1 + 0.2,
+                            a: Math.random() * 0.75 + 0.15,
+                            da: (Math.random() - 0.5) * 0.015
+                        });
+                    }
+
+                    particles.length = 0;
+                    for(let i = 0; i < PARTICLE_COUNT; i++)
+                    {
+                        particles.push(createParticle(true));
+                    }
                 }
 
-                window.addEventListener('resize', resize);
-                window.addEventListener('mousemove', (e) =>
+                function createParticle (initial)
                 {
-                    mouseX = (e.clientX - width / 2) * 0.03;
-                    mouseY = (e.clientY - height / 2) * 0.03;
-                });
-                resize();
+                    const arm = Math.floor(Math.random() * ARMS);
+                    const dist = initial
+                        ? Math.pow(Math.random(), 1.15) * maxRadius
+                        : maxRadius * (0.75 + Math.random() * 0.35);
 
-                const colors = ['#ffffff', '#dbeafe', '#93c5fd', '#c4b5fd', '#fde68a', '#38bdf8'];
+                    const armOffset = (arm / ARMS) * Math.PI * 2;
+                    const spread = (Math.random() - 0.5) * 0.55;
+                    const isNebula = Math.random() < 0.28; // Soft glowing gas clouds along arms
 
-                // Background static twinkling stars
-                for(let i = 0; i < BG_STAR_COUNT; i++)
-                {
-                    bgStars.push({
-                        x: Math.random() * width,
-                        y: Math.random() * height,
-                        r: Math.random() * 1.2 + 0.2,
-                        alpha: Math.random() * 0.7 + 0.2,
-                        twinkle: Math.random() * 0.02 + 0.005
-                    });
-                }
+                    // Outer regions: blue/purple; Inner core: warm gold/white
+                    let col;
+                    if(dist < maxRadius * 0.18)
+                    {
+                        col = Math.random() > 0.3 ? nebulaColors[5] : nebulaColors[4];
+                    } else
+                    {
+                        col = nebulaColors[Math.floor(Math.random() * 4)];
+                    }
 
-                // Spiral galaxy arm particles
-                const maxRadius = Math.min(width, height) * 0.65;
-                for(let i = 0; i < STAR_COUNT; i++)
-                {
-                    const arm = i % ARMS;
-                    const dist = Math.pow(Math.random(), 1.6) * maxRadius;
-                    const spinAngle = dist * 0.0075;
-                    const branchAngle = (arm / ARMS) * Math.PI * 2;
-                    const spread = (Math.random() - 0.5) * (0.45 + dist * 0.0012);
-
-                    stars.push({
+                    return {
                         dist: dist,
-                        angle: branchAngle + spinAngle + spread,
-                        speed: (0.0006 + (1 - dist / maxRadius) * 0.0014),
-                        size: Math.random() * 1.8 + 0.5,
-                        color: colors[Math.floor(Math.random() * colors.length)],
-                        alpha: Math.max(0.2, 1 - (dist / maxRadius) * 0.75)
-                    });
+                        baseAngle: armOffset + spread,
+                        pullSpeed: 0.22 + Math.random() * 0.38, // Inward vortex suction speed
+                        angularBoost: 0.0015 + Math.random() * 0.002,
+                        size: isNebula ? (Math.random() * 7 + 3.5) : (Math.random() * 1.7 + 0.4),
+                        isNebula: isNebula,
+                        color: col,
+                        alpha: isNebula ? (Math.random() * 0.14 + 0.04) : (Math.random() * 0.75 + 0.25)
+                    };
                 }
 
-                function animate ()
-                {
-                    ctx.clearRect(0, 0, width, height);
+                window.addEventListener('resize', initScene);
+                initScene();
 
-                    // Draw subtle background stars
+                let globalRotation = 0;
+                const tiltY = 0.54;       // 3D perspective tilt
+                const planeAngle = -0.32; // Diagonal galaxy orientation
+
+                function render ()
+                {
+                    // Deep space dark fill with slight motion trail
+                    ctx.fillStyle = 'rgba(2, 3, 8, 0.88)';
+                    ctx.fillRect(0, 0, width, height);
+
+                    // 1. Twinkling distant stars
                     for(let i = 0; i < bgStars.length; i++)
                     {
                         const s = bgStars[i];
-                        s.alpha += s.twinkle;
-                        if(s.alpha > 0.9 || s.alpha < 0.2) s.twinkle *= -1;
+                        s.a += s.da;
+                        if(s.a > 0.9 || s.a < 0.15) s.da *= -1;
                         ctx.beginPath();
                         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                        ctx.fillStyle = `rgba(226, 232, 240, ${s.alpha})`;
+                        ctx.fillStyle = `rgba(226, 232, 240, ${s.a})`;
                         ctx.fill();
                     }
 
-                    // Core Galactic Glow
-                    const coreX = cx + mouseX;
-                    const coreY = cy + mouseY;
-                    const grad = ctx.createRadialGradient(coreX, coreY, 2, coreX, coreY, maxRadius * 0.45);
-                    grad.addColorStop(0, 'rgba(255, 248, 220, 0.35)');
-                    grad.addColorStop(0.25, 'rgba(99, 102, 241, 0.16)');
-                    grad.addColorStop(0.6, 'rgba(14, 165, 233, 0.05)');
-                    grad.addColorStop(1, 'rgba(4, 7, 17, 0)');
-                    ctx.fillStyle = grad;
+                    // Additive blending for luminous galactic plasma
+                    ctx.globalCompositeOperation = 'lighter';
+
+                    // 2. Central Galactic Core Glow (Behind Akash Chandra)
+                    const coreGlow = ctx.createRadialGradient(cx, cy, 4, cx, cy, maxRadius * 0.42);
+                    coreGlow.addColorStop(0, 'rgba(255, 250, 230, 0.55)');
+                    coreGlow.addColorStop(0.18, 'rgba(168, 85, 247, 0.28)');
+                    coreGlow.addColorStop(0.45, 'rgba(56, 189, 248, 0.12)');
+                    coreGlow.addColorStop(1, 'rgba(2, 3, 8, 0)');
+                    ctx.fillStyle = coreGlow;
                     ctx.beginPath();
-                    ctx.arc(coreX, coreY, maxRadius * 0.45, 0, Math.PI * 2);
+                    ctx.arc(cx, cy, maxRadius * 0.42, 0, Math.PI * 2);
                     ctx.fill();
 
-                    // Draw rotating tilted 3D spiral stars
-                    const tilt = 0.52; // 3D perspective tilt
-                    const rotationOffset = -0.35; // Diagonal galaxy angle
+                    globalRotation += 0.0022;
 
-                    for(let i = 0; i < stars.length; i++)
+                    // 3. Spiral Vortex Particles being pulled into the center
+                    for(let i = 0; i < particles.length; i++)
                     {
-                        const st = stars[i];
-                        st.angle += st.speed;
+                        const p = particles[i];
 
-                        const rawX = Math.cos(st.angle) * st.dist;
-                        const rawY = Math.sin(st.angle) * st.dist * tilt;
+                        // Pull inward toward the center; faster spiral velocity near core
+                        const gravityFactor = 1 + (1 - Math.min(p.dist / maxRadius, 1)) * 1.6;
+                        p.dist -= p.pullSpeed * gravityFactor;
 
-                        // Rotate galaxy plane slightly for dramatic angle
-                        const x = coreX + (rawX * Math.cos(rotationOffset) - rawY * Math.sin(rotationOffset));
-                        const y = coreY + (rawX * Math.sin(rotationOffset) + rawY * Math.cos(rotationOffset));
+                        // Respawn at outer edge once sucked into the center
+                        if(p.dist <= 6)
+                        {
+                            Object.assign(p, createParticle(false));
+                            continue;
+                        }
+
+                        // Logarithmic spiral twist increases closer to center
+                        const spiralTwist = (maxRadius - p.dist) * 0.0085;
+                        const theta = p.baseAngle + spiralTwist + globalRotation * gravityFactor;
+
+                        // 3D tilted ellipse projection
+                        const localX = Math.cos(theta) * p.dist;
+                        const localY = Math.sin(theta) * p.dist * tiltY;
+
+                        const screenX = cx + (localX * Math.cos(planeAngle) - localY * Math.sin(planeAngle));
+                        const screenY = cy + (localX * Math.sin(planeAngle) + localY * Math.cos(planeAngle));
+
+                        // Fade smoothly at outer edge and right at center singularity
+                        const edgeFade = Math.min(1, (maxRadius - p.dist) / (maxRadius * 0.2));
+                        const coreFade = Math.min(1, p.dist / 35);
+                        const finalAlpha = p.alpha * edgeFade * coreFade;
 
                         ctx.beginPath();
-                        ctx.arc(x, y, st.size, 0, Math.PI * 2);
-                        ctx.globalAlpha = st.alpha;
-                        ctx.fillStyle = st.color;
+                        ctx.arc(screenX, screenY, p.size, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${finalAlpha})`;
                         ctx.fill();
                     }
-                    ctx.globalAlpha = 1;
-                    requestAnimationFrame(animate);
+
+                    ctx.globalCompositeOperation = 'source-over';
+                    requestAnimationFrame(render);
                 }
 
-                animate();
+                render();
             })();
         </script>
     </body>

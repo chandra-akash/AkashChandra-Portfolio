@@ -202,10 +202,10 @@ h6 {
 /*--------------------------------------------------------------
 # Hero Section
 --------------------------------------------------------------*/
-#hero {
+/* #hero {
   width: 100%;
   height: 100vh;
-  /* background: url("../img/hero-bg.jpg") top center; */
+  / * background: url("../img/hero-bg.jpg") top center; * /
   background: url("../img/portfolio/galaxy.jpg") top center;
   background-size: cover;
 }
@@ -268,7 +268,7 @@ h6 {
   #hero .hero-container p {
     font-size: 29px;
   }
-}
+} */
 
 /*--------------------------------------------------------------
 # Sections General
@@ -975,7 +975,7 @@ a.btn:active {
   border-radius: 50px;
 }
 
-#hero {
+/* #hero {
   background: radial-gradient(
     ellipse at bottom,
     #0d152c 0%,
@@ -987,4 +987,140 @@ a.btn:active {
 #hero:before {
   background: rgba(4, 7, 17, 0.25) !important;
   z-index: 1;
+} */
+
+/*--------------------------------------------------------------
+# Hero Section
+--------------------------------------------------------------*/
+/* =========================================
+   Custom 3D Vortex Galaxy & Hero Overrides
+   ========================================= */
+#hero {
+  position: relative !important;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden !important;
+  background: #020308 !important;
+  background-image: none !important;
+}
+
+/* Remove whitish/blur overlay from template */
+#hero:before {
+  display: none !important;
+  content: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+#galaxy-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+#hero .hero-container {
+  position: relative;
+  z-index: 3;
+  padding: 0 15px;
+  /* Subtle dark core halo behind text so galactic core light never washes out letters */
+  background: radial-gradient(ellipse at center, rgba(2, 4, 12, 0.72) 0%, rgba(2, 4, 12, 0.25) 55%, transparent 80%);
+  border-radius: 50%;
+}
+
+#hero h1 {
+  color: #ffffff !important;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95), 0 0 28px rgba(56, 189, 248, 0.45);
+}
+
+#hero p {
+  color: #f1f5f9 !important;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
+}
+
+#hero p span.typed {
+  color: #38bdf8 !important;
+  border-bottom: 2px solid #38bdf8 !important;
+  font-weight: 600;
+}
+
+/* Scroll Down Indicator at Bottom of Hero */
+#hero-scroll-down {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.85);
+  transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease;
+  cursor: pointer;
+}
+
+#hero-scroll-down.hidden-scroll {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 12px);
+}
+
+#hero-scroll-down .scroll-text {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #cbd5e1;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+}
+
+#hero-scroll-down .scroll-mouse {
+  width: 22px;
+  height: 34px;
+  border: 2px solid rgba(56, 189, 248, 0.8);
+  border-radius: 14px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+#hero-scroll-down .scroll-wheel {
+  width: 3px;
+  height: 7px;
+  background: #38bdf8;
+  border-radius: 2px;
+  animation: wheelScroll 1.6s infinite ease-in-out;
+}
+
+#hero-scroll-down .scroll-arrow {
+  font-size: 16px;
+  color: #38bdf8;
+  margin-top: 3px;
+  animation: arrowBounce 1.6s infinite ease-in-out;
+}
+
+@keyframes wheelScroll {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(10px); }
+}
+
+@keyframes arrowBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50% { transform: translateY(5px); opacity: 1; }
+}
+
+/* Desktop sidebar offset fix so galaxy core stays centered under text */
+@media (min-width: 1199px) {
+  #hero-scroll-down {
+    left: calc(50% + 150px);
+  }
 }
