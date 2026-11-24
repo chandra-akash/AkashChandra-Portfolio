@@ -974,3 +974,17 @@ a.btn:active {
   box-shadow: inset 0 0 5px grey;
   border-radius: 50px;
 }
+
+#hero {
+  background: radial-gradient(
+    ellipse at bottom,
+    #0d152c 0%,
+    #03050c 100%
+  ) !important;
+  background-image: none !important;
+}
+
+#hero:before {
+  background: rgba(4, 7, 17, 0.25) !important;
+  z-index: 1;
+}

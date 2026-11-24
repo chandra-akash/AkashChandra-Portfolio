@@ -152,11 +152,16 @@
         <!-- End Header -->
 
         <!-- ======= Hero Section ======= -->
-        <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
-            <div class="hero-container" data-aos="fade-in">
+        <section id="hero" class="d-flex flex-column justify-content-center align-items-center"
+            style="position: relative; overflow: hidden; background: #040711;">
+            <!-- Lightweight 3D Spiral Galaxy Canvas -->
+            <canvas id="galaxy-canvas"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;"></canvas>
+
+            <div class="hero-container" data-aos="fade-in" style="position: relative; z-index: 2;">
                 <h1>Akash Chandra</h1>
             </div>
-            <div class="hero-container" data-aos="fade-in">
+            <div class="hero-container" data-aos="fade-in" style="position: relative; z-index: 2;">
                 <p>
                     I'm
                     <span class="typed"
@@ -1209,6 +1214,130 @@
 
         <!-- Template Main JS File -->
         <script src="assets/js/main.js"></script>
+
+        <script>
+            (function()
+            {
+                const canvas = document.getElementById('galaxy-canvas');
+                if(!canvas) return;
+                const ctx = canvas.getContext('2d');
+
+                let width, height, cx, cy;
+                const stars = [];
+                const bgStars = [];
+                const STAR_COUNT = 950;
+                const BG_STAR_COUNT = 180;
+                const ARMS = 3;
+                let mouseX = 0, mouseY = 0;
+
+                function resize ()
+                {
+                    width = canvas.width = canvas.offsetWidth || window.innerWidth;
+                    height = canvas.height = canvas.offsetHeight || window.innerHeight;
+                    cx = width / 2;
+                    cy = height / 2;
+                }
+
+                window.addEventListener('resize', resize);
+                window.addEventListener('mousemove', (e) =>
+                {
+                    mouseX = (e.clientX - width / 2) * 0.03;
+                    mouseY = (e.clientY - height / 2) * 0.03;
+                });
+                resize();
+
+                const colors = ['#ffffff', '#dbeafe', '#93c5fd', '#c4b5fd', '#fde68a', '#38bdf8'];
+
+                // Background static twinkling stars
+                for(let i = 0; i < BG_STAR_COUNT; i++)
+                {
+                    bgStars.push({
+                        x: Math.random() * width,
+                        y: Math.random() * height,
+                        r: Math.random() * 1.2 + 0.2,
+                        alpha: Math.random() * 0.7 + 0.2,
+                        twinkle: Math.random() * 0.02 + 0.005
+                    });
+                }
+
+                // Spiral galaxy arm particles
+                const maxRadius = Math.min(width, height) * 0.65;
+                for(let i = 0; i < STAR_COUNT; i++)
+                {
+                    const arm = i % ARMS;
+                    const dist = Math.pow(Math.random(), 1.6) * maxRadius;
+                    const spinAngle = dist * 0.0075;
+                    const branchAngle = (arm / ARMS) * Math.PI * 2;
+                    const spread = (Math.random() - 0.5) * (0.45 + dist * 0.0012);
+
+                    stars.push({
+                        dist: dist,
+                        angle: branchAngle + spinAngle + spread,
+                        speed: (0.0006 + (1 - dist / maxRadius) * 0.0014),
+                        size: Math.random() * 1.8 + 0.5,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        alpha: Math.max(0.2, 1 - (dist / maxRadius) * 0.75)
+                    });
+                }
+
+                function animate ()
+                {
+                    ctx.clearRect(0, 0, width, height);
+
+                    // Draw subtle background stars
+                    for(let i = 0; i < bgStars.length; i++)
+                    {
+                        const s = bgStars[i];
+                        s.alpha += s.twinkle;
+                        if(s.alpha > 0.9 || s.alpha < 0.2) s.twinkle *= -1;
+                        ctx.beginPath();
+                        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(226, 232, 240, ${s.alpha})`;
+                        ctx.fill();
+                    }
+
+                    // Core Galactic Glow
+                    const coreX = cx + mouseX;
+                    const coreY = cy + mouseY;
+                    const grad = ctx.createRadialGradient(coreX, coreY, 2, coreX, coreY, maxRadius * 0.45);
+                    grad.addColorStop(0, 'rgba(255, 248, 220, 0.35)');
+                    grad.addColorStop(0.25, 'rgba(99, 102, 241, 0.16)');
+                    grad.addColorStop(0.6, 'rgba(14, 165, 233, 0.05)');
+                    grad.addColorStop(1, 'rgba(4, 7, 17, 0)');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(coreX, coreY, maxRadius * 0.45, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Draw rotating tilted 3D spiral stars
+                    const tilt = 0.52; // 3D perspective tilt
+                    const rotationOffset = -0.35; // Diagonal galaxy angle
+
+                    for(let i = 0; i < stars.length; i++)
+                    {
+                        const st = stars[i];
+                        st.angle += st.speed;
+
+                        const rawX = Math.cos(st.angle) * st.dist;
+                        const rawY = Math.sin(st.angle) * st.dist * tilt;
+
+                        // Rotate galaxy plane slightly for dramatic angle
+                        const x = coreX + (rawX * Math.cos(rotationOffset) - rawY * Math.sin(rotationOffset));
+                        const y = coreY + (rawX * Math.sin(rotationOffset) + rawY * Math.cos(rotationOffset));
+
+                        ctx.beginPath();
+                        ctx.arc(x, y, st.size, 0, Math.PI * 2);
+                        ctx.globalAlpha = st.alpha;
+                        ctx.fillStyle = st.color;
+                        ctx.fill();
+                    }
+                    ctx.globalAlpha = 1;
+                    requestAnimationFrame(animate);
+                }
+
+                animate();
+            })();
+        </script>
     </body>
 
 </html>
